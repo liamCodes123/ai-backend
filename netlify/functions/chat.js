@@ -1,4 +1,17 @@
 export async function handler(event) {
+  // Handle CORS preflight request
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      },
+      body: ""
+    };
+  }
+
   try {
     const { messages } = JSON.parse(event.body);
 
@@ -18,13 +31,20 @@ export async function handler(event) {
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
     };
 
   } catch (error) {
     return {
       statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },  // ADD THIS LINE
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ error: "Server error" })
     };
   }
