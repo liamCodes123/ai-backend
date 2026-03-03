@@ -24,6 +24,7 @@ export async function handler(event) {
   } catch (error) {
     return {
       statusCode: 500,
+      headers: { "Access-Control-Allow-Origin": "*" },  // ADD THIS LINE
       body: JSON.stringify({ error: "Server error" })
     };
   }
